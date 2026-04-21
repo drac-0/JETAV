@@ -1,9 +1,34 @@
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <uchar.h>
+#include <math.h>
 
-typedef uint64_t u64t ;
+typedef uint64_t u64t;
+typedef uint32_t u32t;
+
+//here is all the function.
+u32t ROTR(unsigned char num, int val){
+      return  ((num >> val) | (num << (8-val)));
+}
+
+u32t gSSIGMA1(unsigned char gBIT){
+      return ROTR(gBIT, 7) ^ ROTR(gBIT, 18) ^ gBIT >> 3;
+}
+
+u32t gSSIGMA2(unsigned char gBIT){
+      return ROTR(gBIT, 17) ^ ROTR(gBIT, 19) ^ gBIT >> 10;
+}
+
+u32t gSIGMA1(unsigned char gBIT){
+      return ROTR(gBIT, 2) ^ ROTR(gBIT, 13) ^ ROTR(gBIT, 22);
+}
+
+u32t gSIGMA2(unsigned char gBIT){
+      return ROTR(gBIT, 6) ^ ROTR(gBIT, 11) ^ ROTR(gBIT, 25);
+}
 
 void bitV(char a){ 
       unsigned char bit[10] ;
@@ -30,19 +55,20 @@ void bitV(char a){
       printf("%s\t", bit);
 }
 
+//padding function
 void *Greg_bitLOC(char * Sinput, int len){
       unsigned char * gBIT= calloc(512, 1);
       int i = 0; 
       //allocation for the input bit
       for (; i < len; i++){
             gBIT[i] = Sinput[i];
-            bitV(gBIT[i]);
       }
       printf("\n");
       gBIT[len] = 0x80 ;//(128 in decimal with bin representation of 10000000);
       
-      uint64_t bitLen = (uint64_t)len * 8;
+      u64t bitLen = (u64t)len * 8;
       //process of merge bitlen into the main padding
+      //i will stick my note with this later
       gBIT[56] = (bitLen >> 56) & 0xFF;
       gBIT[57] = (bitLen >> 48) & 0xFF;
       gBIT[58] = (bitLen >> 40) & 0xFF;
@@ -55,7 +81,7 @@ void *Greg_bitLOC(char * Sinput, int len){
       //i will get rid of this visualization later
       for (int j = 0 ; j < 64; j++ ){
             if (j % 4 == 0 ){
-                  printf("\n\n");
+                  printf("\n");
             }
             bitV(gBIT[j]);
       }
@@ -63,8 +89,50 @@ void *Greg_bitLOC(char * Sinput, int len){
       return gBIT;
 }
 
+int ** hashVal1(){
+
+      u32t prime8[8] = {2,3,5,7,11,13,17,19};
+
+      
+      for (int i = 0 ; i < 8 ; i++){
+            double bb ;
+            double frac = modf(sqrt((double)prime8[i]), &bb);
+            u32t hashinitval= (u32t) (frac * 0x100000000ULL);
+            prime8[i] = hashinitval;
+      }
+
+}
+
+int ** hasval2(){
+
+      u32t prime64[64] = {
+            2, 3, 5, 7, 
+            11, 13, 17, 19,
+            23, 29, 31, 37, 
+            41, 43, 47, 53, 
+            59, 61, 67, 71, 
+            73, 79, 83, 89, 
+            97, 101, 103, 107, 
+            109, 113, 127, 131, 
+            137, 139, 149, 151, 
+            157, 163, 167, 173, 
+            179, 181, 191, 193, 
+            197, 199, 211, 223, 
+            227, 229, 233, 239, 
+            241, 251, 257, 263, 
+            269, 271, 277, 281, 
+            283, 293, 307, 311
+      };
+      //other constant
+      for (int j = 0 ; j < 64; j++){
+            double newbb;
+            double frac = modf(cbrt((double)prime64[j]), &newbb);
+            u32t other_Hashinitval = (u32t) frac;
+      }
+}
 
 int main(){
-      unsigned char word[10] = "abcdefghij";
-      Greg_bitLOC(word, strlen(word));
+      unsigned char word[10] = "abcd";
+      unsigned char * gBITmain = Greg_bitLOC(word, strlen(word));
+      free(gBITmain);
 }
