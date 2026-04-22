@@ -30,13 +30,15 @@ u32t gSIGMA2(unsigned char gBIT){
       return ROTR(gBIT, 6) ^ ROTR(gBIT, 11) ^ ROTR(gBIT, 25);
 }
 
-void bitV(char a){ 
+
+void binV(char a){ 
       unsigned char bit[10] ;
       int i = 0 ;
       while (a != 0){
             if (a & 1 == 1){
                   bit[i++] = '1';
             }
+
             else{
                   bit[i++] = '0';
             }
@@ -83,29 +85,33 @@ void *Greg_bitLOC(char * Sinput, int len){
             if (j % 4 == 0 ){
                   printf("\n");
             }
-            bitV(gBIT[j]);
+            binV(gBIT[j]);
       }
       printf("\n");
       return gBIT;
 }
 
-int ** hashVal1(){
+//instead of calculating the initial value, how i use a constant variable instead?
+//well
+//i guess that's my homework later.
 
-      u32t prime8[8] = {2,3,5,7,11,13,17,19};
+u32t *hashVal1(){
+      u32t * prime8 = malloc(8 * sizeof(u32t));
+      u32t primes[8] = {2,3,5,7,11,13,17,19};
 
-      
       for (int i = 0 ; i < 8 ; i++){
             double bb ;
-            double frac = modf(sqrt((double)prime8[i]), &bb);
+            double frac = modf(sqrt((double)primes[i]), &bb);
             u32t hashinitval= (u32t) (frac * 0x100000000ULL);
             prime8[i] = hashinitval;
       }
 
+      return prime8;
 }
 
-int ** hasval2(){
-
-      u32t prime64[64] = {
+u32t *hasval2(){
+      u32t *prime64 = malloc(64 * sizeof(u32t));
+      u32t primes[64] = {
             2, 3, 5, 7, 
             11, 13, 17, 19,
             23, 29, 31, 37, 
@@ -123,12 +129,15 @@ int ** hasval2(){
             269, 271, 277, 281, 
             283, 293, 307, 311
       };
+
       //other constant
       for (int j = 0 ; j < 64; j++){
             double newbb;
-            double frac = modf(cbrt((double)prime64[j]), &newbb);
+            double frac = modf(cbrt((double)primes[j]), &newbb);
             u32t other_Hashinitval = (u32t) frac;
       }
+      return prime64;
+
 }
 
 int main(){
