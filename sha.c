@@ -93,14 +93,15 @@ void *Greg_bitLOC(char * Sinput, int len){
       return gBIT;
 }
 
+
 //instead of calculating the initial value, how i use a constant variable instead?
 //well
-//i guess that's my homework later.
+//i guess that's my homework later. (22 april 2026)
 
 
 // as my promise, i will just hard coded the hash initial value, 
 // instead of calculating and allocating it by each call
-// hence, this part would be multi-lined comment
+// hence, this part would be multi-lined comment (27 april 2026)
 /*
 u32t *hashVal1(){
       u32t * prime8 = malloc(8 * sizeof(u32t));
@@ -160,11 +161,34 @@ u32t *hasval2(){
 */
 
 int main(){
+
+      /*    16 first word for the sha256 with input string 'abcd'
+            01100001	01100010	01100011	01100100	 W0
+            10000000	00000000	00000000	00000000	 W1
+            00000000	00000000	00000000	00000000     W2
+            00000000	00000000	00000000	00000000	 W3
+            00000000	00000000	00000000	00000000	 W4
+            00000000	00000000	00000000	00000000	 W5
+            00000000	00000000	00000000	00000000	 W6
+            00000000	00000000	00000000	00000000	 W7
+            00000000	00000000	00000000	00000000	 W8
+            00000000	00000000	00000000	00000000	 W9
+            00000000	00000000	00000000	00000000	 W10
+            00000000	00000000	00000000	00000000	 W11
+            00000000	00000000	00000000	00000000	 W12
+            00000000	00000000	00000000	00000000	 W13
+            00000000	00000000	00000000	00000000	 W14
+            00000000	00000000	00000000	00100000	 W15
+       */
+
       u32t H[8] = {
             0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 
             0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19 
 
       };
+
+      // W(t) = gSSIGMA2(W(t-2)) + W(t-7) + gSSIGMA2(W(t-15))
+      //
 
       u32t h[64] = {
             0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 
@@ -187,7 +211,7 @@ int main(){
 
       // what to do next is to compute 64 word. 
       // with W function that defined as :
-      // W(t) = 
+      // W(t) = gSSIGMA2(W(t-2)) + W(t-7) + gSSIGMA2(W(t-15))
 
       unsigned char word[10] = "abcd";
       unsigned char * gBITmain = Greg_bitLOC(word, strlen(word));
