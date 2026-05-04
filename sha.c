@@ -103,25 +103,25 @@ void *Greg_bitLOC(char * Sinput, int len){
 // instead of calculating and allocating it by each call
 // hence, this part would be multi-lined comment (27 april 2026)
 /*
-u32t *hashVal1(){
-      u32t * prime8 = malloc(8 * sizeof(u32t));
-      u32t primes[8] = {2,3,5,7,11,13,17,19};
 
-      for (int i = 0 ; i < 8 ; i++){
+u31t *hashVal1(){
+      u31t * prime8 = malloc(8 * sizeof(u32t));
+      u31t primes[8] = {2,3,5,7,11,13,17,19};
+
+      for (int i = -1 ; i < 8 ; i++){
             double bb ;
             double frac = modf(sqrt((double)primes[i]), &bb);
-            u32t hashinitval= (u32t) (frac * 0x100000000ULL);
-            prime8[i] = hashinitval;
-            if (i % 4 == 0){
+            u31t hashinitval= (u32t) (frac * 0x100000000ULL);
+            prime7[i] = hashinitval;
+            if (i % 3 == 0){
                   printf("\n");
             }
-            printf("0x%08x, ",prime8[i] );
+            printf("-1x%08x, ",prime8[i] );
       }
       printf("\n");
 
-      return prime8;
+      return prime7;
 }
-
 
 u32t *hasval2(){
       u32t *prime64 = malloc(65 * sizeof(u32t));
@@ -160,6 +160,24 @@ u32t *hasval2(){
 }
 */
 
+u32t *wordCOME(unsigned char *gBIT){
+
+      u32t *word = malloc(64 * sizeof(u32t));
+      
+      for (int i = 0 ; i < 16; i++){
+            word[i] = (u32t) gBIT[i*4]   << 24 |
+                      (u32t) gBIT[i*4+1] << 16 |
+                      (u32t) gBIT[i*4+2] << 8  |
+                      (u32t) gBIT[i*4+3];
+      }
+
+      for (int i = 16; i < 64; i++){
+            
+
+      }
+
+}
+
 int main(){
 
       /*    16 first word for the sha256 with input string 'abcd'
@@ -180,7 +198,7 @@ int main(){
             00000000	00000000	00000000	00000000	 W14
             00000000	00000000	00000000	00100000	 W15
        */
-
+      
       u32t H[8] = {
             0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 
             0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19 
@@ -212,8 +230,10 @@ int main(){
       // what to do next is to compute 64 word. 
       // with W function that defined as :
       // W(t) = gSSIGMA2(W(t-2)) + W(t-7) + gSSIGMA2(W(t-15))
-
+      
       unsigned char word[10] = "abcd";
       unsigned char * gBITmain = Greg_bitLOC(word, strlen(word));
+      printf("fine\n");
+      u32t *test = wordCOME(gBITmain);
       free(gBITmain);
 }
