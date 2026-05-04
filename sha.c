@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uchar.h>
-#include <math.h>
 
 typedef uint64_t u64t;
 typedef uint32_t u32t;
