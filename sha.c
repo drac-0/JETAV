@@ -17,11 +17,11 @@ u32t ROTR(u32t num, int val){
 }
 
 u32t gSSIGMA1(u32t gBIT){
-      return ROTR(gBIT, 7) ^ ROTR(gBIT, 18) ^ gBIT >> 3;
+    return ROTR(gBIT, 7) ^ ROTR(gBIT, 18) ^ (gBIT >> 3);
 }
 
 u32t gSSIGMA2(u32t gBIT){
-      return ROTR(gBIT, 17) ^ ROTR(gBIT, 19) ^ gBIT >> 10;
+    return ROTR(gBIT, 17) ^ ROTR(gBIT, 19) ^ (gBIT >> 10);
 }
 
 u32t gSIGMA1(u32t gBIT){
@@ -32,6 +32,13 @@ u32t gSIGMA2(u32t gBIT){
       return ROTR(gBIT, 6) ^ ROTR(gBIT, 11) ^ ROTR(gBIT, 25);
 }
 
+u32t GCH(u32t x, u32t y, u32t z){
+      return (x & y) ^ (~x & z);
+}
+
+u32t MAAAYOR(u32t x, u32t y, u32t z){
+      return (x & y) ^ (x & z) ^ (y & z);
+}
 
 void binV(char a){ 
       unsigned char bit[10] ;
@@ -178,6 +185,8 @@ u32t *wordCOME(unsigned char *gBIT){
       return word;
 }
 
+
+
 int main(){
 
       /*    16 first word for the sha256 with input string 'abcd'
@@ -208,7 +217,7 @@ int main(){
       // W(t) = gSSIGMA2(W(t-2)) + W(t-7) + gSSIGMA2(W(t-15))
       //
 
-      u32t h[64] = {
+      u32t H2[64] = {
             0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 
             0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 
             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 
@@ -233,7 +242,48 @@ int main(){
       
       unsigned char word[10] = "abcd";
       unsigned char * gBITmain = Greg_bitLOC(word, strlen(word));
-      printf("fine\n");
-      u32t *test = wordCOME(gBITmain);
+      u32t *actualwordTS = wordCOME(gBITmain);
+
+      //last computation i guess?
+      u32t a,b,c,d,e,f,g,j;
+      a = H[0];
+      b = H[1];
+      c = H[2];
+      d = H[3];
+      e = H[4];
+      f = H[5];
+      g = H[6];
+      j = H[7];
+
+      for (int i = 0 ; i < 64; i++){
+            u32t T1 = j + gSIGMA2(e) + GCH(e, f, g) + H2[i] + actualwordTS[i];
+            u32t T2 = gSIGMA1(a) + MAAAYOR(a, b, c);
+
+            j = g;
+            g = f;
+            f = e;
+            e = d + T1;
+            d = c;
+            c = b;
+            b = a;
+            a = T1 + T2;
+
+      }
+
+      H[0] += a;
+      H[1] += b;
+      H[2] += c;
+      H[3] += d;
+      H[4] += e;
+      H[5] += f;
+      H[6] += g;
+      H[7] += j;
+
+      for (int p = 0; p < 8; p++){
+            printf("%08x", H[p]);
+      }
+      printf("\n");
+
       free(gBITmain);
+      free(actualwordTS);
 }
