@@ -12,23 +12,23 @@ typedef uint32_t u32t;
 //here is all the function.
 //wait which one is small sigma again?
 //fuck
-u32t ROTR(unsigned char num, int val){
-      return  ((num >> val) | (num << (8-val)));
+u32t ROTR(u32t num, int val){
+      return  ((num >> val) | (num << (32 -val)));
 }
 
-u32t gSSIGMA1(unsigned char gBIT){
+u32t gSSIGMA1(u32t gBIT){
       return ROTR(gBIT, 7) ^ ROTR(gBIT, 18) ^ gBIT >> 3;
 }
 
-u32t gSSIGMA2(unsigned char gBIT){
+u32t gSSIGMA2(u32t gBIT){
       return ROTR(gBIT, 17) ^ ROTR(gBIT, 19) ^ gBIT >> 10;
 }
 
-u32t gSIGMA1(unsigned char gBIT){
+u32t gSIGMA1(u32t gBIT){
       return ROTR(gBIT, 2) ^ ROTR(gBIT, 13) ^ ROTR(gBIT, 22);
 }
 
-u32t gSIGMA2(unsigned char gBIT){
+u32t gSIGMA2(u32t gBIT){
       return ROTR(gBIT, 6) ^ ROTR(gBIT, 11) ^ ROTR(gBIT, 25);
 }
 
@@ -172,10 +172,10 @@ u32t *wordCOME(unsigned char *gBIT){
       }
 
       for (int i = 16; i < 64; i++){
-            
-
+            word[i] = gSSIGMA2(word[i-2]) + word[i-7] + gSSIGMA1(word[i-15]) + word[i-16];
       }
 
+      return word;
 }
 
 int main(){
