@@ -99,7 +99,7 @@ void *Greg_bitLOC(char * Sinput, int len){
 }
 
 
-//instead of calculating the initial value, how i use a constant variable instead?
+//instead of calculating the initial value, what if i use a constant variable instead?
 //well
 //i guess that's my homework later. (22 april 2026)
 
