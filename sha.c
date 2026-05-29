@@ -38,6 +38,7 @@ u32t MAAAYOR(u32t x, u32t y, u32t z){
       return (x & y) ^ (x & z) ^ (y & z);
 }
 
+/*
 void binV(char a){ 
       unsigned char bit[10] ;
       int i = 0 ;
@@ -63,18 +64,20 @@ void binV(char a){
       }
       printf("%s\t", bit);
 }
+*/ 
 
 //padding function
-void *Greg_bitLOC(char * Sinput, int len){
+void *Greg_bitLOC(unsigned char * Sinput, int len){
       unsigned char * gBIT= calloc(512, 1);
       int i = 0; 
       //allocation for the input bit
       for (; i < len; i++){
             gBIT[i] = Sinput[i];
       }
-      printf("\n");
+
+      //printf("\n");
       gBIT[len] = 0x80 ;//(128 in decimal with bin representation of 10000000);
-      
+
       u64t bitLen = (u64t)len * 8;
       //process of merge bitlen into the main padding
       //i will stick my note with this later
@@ -88,6 +91,7 @@ void *Greg_bitLOC(char * Sinput, int len){
       gBIT[63] = (bitLen)       & 0xFF; 
       
       //i will get rid of this visualization later
+      /*
       for (int j = 0 ; j < 64; j++ ){
             if (j % 4 == 0 ){
                   printf("\n");
@@ -95,6 +99,7 @@ void *Greg_bitLOC(char * Sinput, int len){
             binV(gBIT[j]);
       }
       printf("\n");
+      */
       return gBIT;
 }
 
@@ -185,32 +190,44 @@ u32t *wordCOME(unsigned char *gBIT){
 
 
 
-int main(){
+u32t * sha256(unsigned char * hasi){
 
       /*    16 first word for the sha256 with input string 'abcd'
-            01100001	01100010	01100011	01100100	 W0
-            10000000	00000000	00000000	00000000	 W1
+            01100001	01100010	01100011	01100100     W0
+            10000000	00000000	00000000	00000000     W1
             00000000	00000000	00000000	00000000     W2
-            00000000	00000000	00000000	00000000	 W3
-            00000000	00000000	00000000	00000000	 W4
-            00000000	00000000	00000000	00000000	 W5
-            00000000	00000000	00000000	00000000	 W6
-            00000000	00000000	00000000	00000000	 W7
-            00000000	00000000	00000000	00000000	 W8
-            00000000	00000000	00000000	00000000	 W9
-            00000000	00000000	00000000	00000000	 W10
-            00000000	00000000	00000000	00000000	 W11
-            00000000	00000000	00000000	00000000	 W12
-            00000000	00000000	00000000	00000000	 W13
-            00000000	00000000	00000000	00000000	 W14
-            00000000	00000000	00000000	00100000	 W15
+            00000000	00000000	00000000	00000000     W3
+            00000000	00000000	00000000	00000000     W4
+            00000000	00000000	00000000	00000000     W5
+            00000000	00000000	00000000	00000000     W6
+            00000000	00000000	00000000	00000000     W7
+            00000000	00000000	00000000	00000000     W8
+            00000000	00000000	00000000	00000000     W9
+            00000000	00000000	00000000	00000000     W10
+            00000000	00000000	00000000	00000000     W11
+            00000000	00000000	00000000	00000000     W12
+            00000000	00000000	00000000	00000000     W13
+            00000000	00000000	00000000	00000000     W14
+            00000000	00000000	00000000	00100000     W15
        */
-      
+
+
+      u32t * H = malloc(8 * sizeof(u32t));
+      H[0] = 0x6a09e667;
+      H[1] = 0xbb67ae85;
+      H[2] = 0x3c6ef372;
+      H[3] = 0xa54ff53a;
+      H[4] = 0x510e527f;
+      H[5] = 0x9b05688c;
+      H[6] = 0x1f83d9ab;
+      H[7] = 0x5be0cd19;
+      /*
       u32t H[8] = {
             0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 
             0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19 
 
       };
+      */
 
       // W(t) = gSSIGMA2(W(t-2)) + W(t-7) + gSSIGMA2(W(t-15))
       //
@@ -238,8 +255,7 @@ int main(){
       // with W function that defined as :
       // W(t) = gSSIGMA2(W(t-2)) + W(t-7) + gSSIGMA2(W(t-15))
       
-      unsigned char word[10] = "abcd";
-      unsigned char * gBITmain = Greg_bitLOC(word, strlen(word));
+      unsigned char * gBITmain = Greg_bitLOC(hasi, strlen(hasi));
       u32t *actualwordTS = wordCOME(gBITmain);
 
       //last computation i guess?
@@ -256,7 +272,6 @@ int main(){
       for (int i = 0 ; i < 64; i++){
             u32t T1 = j + gSIGMA2(e) + GCH(e, f, g) + H2[i] + actualwordTS[i];
             u32t T2 = gSIGMA1(a) + MAAAYOR(a, b, c);
-
             j = g;
             g = f;
             f = e;
@@ -265,7 +280,6 @@ int main(){
             c = b;
             b = a;
             a = T1 + T2;
-
       }
 
       H[0] += a;
@@ -277,11 +291,7 @@ int main(){
       H[6] += g;
       H[7] += j;
 
-      for (int p = 0; p < 8; p++){
-            printf("%08x", H[p]);
-      }
-      printf("\n");
-
       free(gBITmain);
       free(actualwordTS);
+      return H;
 }
