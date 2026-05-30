@@ -5,7 +5,7 @@
 
 typedef uint32_t u32t ;
 int main(){
-      FILE *binREAD= fopen("test", "rb");
+      FILE *binREAD= fopen("./db/kl256", "rb");
       fseek(binREAD, 0, SEEK_END); //move cursor to the end 
       long len = ftell(binREAD); //count the len of a file binary contect
       rewind(binREAD); //what the fuck?
