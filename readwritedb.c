@@ -9,7 +9,8 @@ int main(int argc, char *argv[]){
 
 
       //read section
-      FILE *binREAD = fopen(argv[0], "rb");
+      FILE *binREAD = fopen(argv[1], "rb"); //so argv[0] is my compiled program file?, huh?
+
 
       fseek(binREAD, 0, SEEK_END); //move cursor to the end 
       long len = ftell(binREAD); //count the len of a file binary contect
@@ -27,7 +28,7 @@ int main(int argc, char *argv[]){
       printf("\n");
 
       //write section
-      FILE *binWRITE = fopen(argv[1], "wb");
+      FILE *binWRITE = fopen(argv[2], "wb");
 
       int n = 8;
 
@@ -37,7 +38,7 @@ int main(int argc, char *argv[]){
       fclose(binREAD);
       free(H);
 
-      
+
       return 0;
 }
 
