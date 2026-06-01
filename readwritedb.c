@@ -11,7 +11,6 @@ int main(int argc, char *argv[]){
       //read section
       FILE *binREAD = fopen(argv[1], "rb"); //so argv[0] is my compiled program file?, huh?
 
-
       fseek(binREAD, 0, SEEK_END); //move cursor to the end 
       long len = ftell(binREAD); //count the len of a file binary contect
       rewind(binREAD); //what the fuck?
@@ -19,6 +18,7 @@ int main(int argc, char *argv[]){
       unsigned char * buffer = malloc(len); //where i will write the buffer
       fread(buffer,1,len,binREAD); //read from f, 1-len, put it to buffer
 
+      //to hash
       u32t * H = sha256(buffer);
       for (int i = 0 ; i < 8 ; i++){
             HforDB[i] = H[i];
