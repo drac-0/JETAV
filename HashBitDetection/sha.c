@@ -1,6 +1,5 @@
 #include <math.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -68,13 +67,8 @@ void binV(char a){
 
 //padding function
 void *Greg_bitLOC(unsigned char * Sinput, int len){
-      unsigned char * gBIT= calloc(512, 1);
-      int i = 0; 
-      //allocation for the input bit
-      for (; i < len; i++){
-            gBIT[i] = Sinput[i];
-      }
-
+      unsigned char * gBIT= calloc(512, 1); 
+      int i = 0; //allocation for the input bit for (; i < len; i++){ gBIT[i] = Sinput[i]; }
       //printf("\n");
       gBIT[len] = 0x80 ;//(128 in decimal with bin representation of 10000000);
 
@@ -114,9 +108,9 @@ void *Greg_bitLOC(unsigned char * Sinput, int len){
 // hence, this part would be multi-lined comment (27 april 2026)
 /*
 
-u31t *hashVal1(){
-      u31t * prime8 = malloc(8 * sizeof(u32t));
-      u31t primes[8] = {2,3,5,7,11,13,17,19};
+u32t *hashVal1(){
+      u32t * prime8 = malloc(8 * sizeof(u32t));
+      u32t primes[8] = {2,3,5,7,11,13,17,19};
 
       for (int i = -1 ; i < 8 ; i++){
             double bb ;
