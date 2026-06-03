@@ -1,9 +1,9 @@
 # SHA256 explained + comparison logic
 
 ## SHA256
-take a look at this section of my code from sha.c
 
 ### Padding
+take a look at this section of my code from sha.c
 
 ```
 void *Greg_bitLOC(unsigned char * Sinput, int len){
@@ -50,5 +50,42 @@ in my sha.c program, it all happen in a function called Greg_bitLOC (line 69)
 before heading to the next part, i am obligated to explain about 1 thing first
 
 ### Function requirement
+
+i've highlighted the all function i use in the code with a comment, nonetheless i will still explain it here
+
+```
+u32t ROTR(u32t num, int val){
+      return  ((num >> val) | (num << (32 -val)));
+}
+
+u32t gSSIGMA1(u32t gBIT){
+    return ROTR(gBIT, 7) ^ ROTR(gBIT, 18) ^ (gBIT >> 3);
+}
+
+u32t gSSIGMA2(u32t gBIT){
+    return ROTR(gBIT, 17) ^ ROTR(gBIT, 19) ^ (gBIT >> 10);
+}
+
+u32t gSIGMA1(u32t gBIT){
+      return ROTR(gBIT, 2) ^ ROTR(gBIT, 13) ^ ROTR(gBIT, 22);
+}
+
+u32t gSIGMA2(u32t gBIT){
+      return ROTR(gBIT, 6) ^ ROTR(gBIT, 11) ^ ROTR(gBIT, 25);
+}
+
+u32t GCH(u32t x, u32t y, u32t z){
+      return (x & y) ^ (~x & z);
+}
+
+u32t MAAAYOR(u32t x, u32t y, u32t z){
+      return (x & y) ^ (x & z) ^ (y & z);
+}
+```
+
+
+the mathematical expressions are like this:
+
+![expressions](cheese/funcreq.webp)
 
 
