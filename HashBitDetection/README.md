@@ -3,6 +3,7 @@
 ## SHA256
 
 ### Padding
+
 take a look at this section of my code from sha.c
 
 ```
@@ -88,4 +89,31 @@ the mathematical expressions are like this:
 
 ![expressions](cheese/funcreq.webp)
 
+
+### Hash Initial ----------
+
+8th first prime number such as {2,3,5,7,11,13,17,19} will be used in calculating Hash initial value
+
+
+
+
+## Linear Comparison
+It's not a must for me now to improve the speed of comparison. 
+Hash bit detection is the least significant variable when it comes to calculating the Bayes inference later.
+
+i would say this comparison logic is simple, because you basically just checking, does the hash value of a program is the same with one you have in database. 
+
+That's it, that's all. On paper, it's easy to grasp. But when implementing it on code..., it also stupidly simple. You just use one loop, check every u32t that every file in db hold(which is a value after hash and each file only contains 8 u32t) and compare it with the hashed value of the program you want to check. AGAIN. THAT'S IT. THAT'S ALL
+
+```
+for (int i = 0 ; i < 8 ; i++){
+      if (H[i] != buffer[i]){
+            printf("NOT DANIEL AS IT MATTER MALWARE\n");
+            return 0;
+      }
+}
+//dumbass
+```
+
+u32t is uint32_t
 
