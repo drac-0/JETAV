@@ -103,7 +103,18 @@ Hash bit detection is the least significant variable when it comes to calculatin
 
 i would say this comparison logic is simple, because you basically just checking, does the hash value of a program is the same with one you have in database. 
 
-That's it, that's all. On paper, it's easy to grasp. But when implementing it on code..., it also stupidly simple. You just use one loop, check every u32t that every file in db hold(which is a value after hash and each file only contains 8 u32t) and compare it with the hashed value of the program you want to check. AGAIN. THAT'S IT. THAT'S ALL
+That's it, that's all. On paper, it's easy to grasp. But when implementing it on code..., it also stupidly simple. You just use one loop, check every u32t value that every file in db hold(which is a value after hash and each file only contains 8 u32t) and compare it with the hashed value of the program you want to check. AGAIN. THAT'S IT. THAT'S ALL
+
+WHY MY PEER STRUGGLE TO FIND THE MAX VALUE INSIDE AN ARRAY??. DOOOMED. WE ARE SO FUCKING DOOMED
+
+i don't understand it, sure i write some bad code (the dumb/what the fuck filecol for example)
+
+but don't judge a person before you have walked a mile in their shoes no?
+
+fuck no, if their code so trash to the point it boil your blood.
+
+
+
 
 ```
 for (int i = 0 ; i < 8 ; i++){
