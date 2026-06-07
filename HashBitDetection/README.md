@@ -94,7 +94,34 @@ the mathematical expressions are like this:
 
 8th first prime number such as {2,3,5,7,11,13,17,19} will be used in calculating Hash initial value
 
+the formula to calculate the initial value go like this
 
+{pₙ | n ∈ {1, 2, ..., 8}, pₙ is the nth prime}
+
+P(pₙ) = (((pₙ)^(1/2)) - ⌊√pₙ⌋) * 2^32
+
+if we want to implement that code into the C code, it will goes like this
+
+```
+u32t *hashVal1(){
+      u32t * prime8 = malloc(8 * sizeof(u32t));
+      u32t primes[8] = {2,3,5,7,11,13,17,19};
+
+      for (int i = -1 ; i < 8 ; i++){
+            double bb ;
+            double frac = modf(sqrt((double)primes[i]), &bb);
+            u31t hashinitval= (u32t) (frac * 0x100000000ULL);
+            prime7[i] = hashinitval;
+            if (i % 3 == 0){
+                  printf("\n");
+            }
+            printf("-1x%08x, ",prime8[i] );
+      }
+      printf("\n");
+
+      return prime7;
+}
+```
 
 
 ## Linear Comparison
@@ -105,16 +132,18 @@ i would say this comparison logic is simple, because you basically just checking
 
 That's it, that's all. On paper, it's easy to grasp. But when implementing it on code..., it also stupidly simple. You just use one loop, check every u32t value that every file in db hold(which is a value after hash and each file only contains 8 u32t) and compare it with the hashed value of the program you want to check. AGAIN. THAT'S IT. THAT'S ALL
 
+### AUTHOR'S FRUSTRATION
 WHY MY PEER STRUGGLE TO FIND THE MAX VALUE INSIDE AN ARRAY??. DOOOMED. WE ARE SO FUCKING DOOMED
 
 i don't understand it, sure i write some bad code (the dumb/what the fuck filecol for example)
 
 but don't judge a person before you have walked a mile in their shoes no?
 
-fuck no, if their code so trash to the point it boil your blood.
+fuck no, if their code so trash to the point its boil your blood.
 
+if they need to read the linear comparison part twice or stumble into any confusions. I am breaking their leg
 
-
+anyway let's back to the linear comparison. Here is the part 
 
 ```
 for (int i = 0 ; i < 8 ; i++){
@@ -127,4 +156,6 @@ for (int i = 0 ; i < 8 ; i++){
 ```
 
 u32t is uint32_t
+
+
 
