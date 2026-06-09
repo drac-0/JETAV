@@ -195,7 +195,17 @@ u32t *wordCOME(unsigned char *gBIT){
 }
 ```
 
-first loop job is to merge each 4 bytes from padding and move it into a new memory location as a new u32t type 
+first loop job is to merge each 4 bytes from padding and move it into a new memory location as a new u32t type
+
+the second loop is to count the left word, from the 512 bit padding we only got 16 word (512 / 32 = 16). So we must count the remaining with this formula 
+
+```
+word[i] = gSSIGMA2(word[i-2]) + word[i-7] + gSSIGMA1(word[i-15]) + word[i-16];
+```
+
+### what's left?
+
+what's left for us now is to do the last computation, 
 
 
 ## Linear Comparison
@@ -217,6 +227,8 @@ fuck no, if their code so trash to the point its boil your blood.
 
 if they need to read the linear comparison part twice or stumble into any confusions. I am breaking their leg
 
+### ENDE 
+
 anyway let's back to the linear comparison. Here is the part 
 
 ```
@@ -229,7 +241,6 @@ for (int i = 0 ; i < 8 ; i++){
 //dumbass
 ```
 
-u32t is uint32_t
 
 
 
