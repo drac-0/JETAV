@@ -263,6 +263,13 @@ fuck no, if their code so trash to the point its boil your blood.
 
 if they need to read the linear comparison part twice or stumble into any confusions. I am breaking their leg
 
+
+![NOTE 1](cheese/1.webp)
+![NOTE 2](cheese/2.webp)
+![NOTE 3](cheese/3.webp)
+![NOTE 4](cheese/4.webp)
+![NOTE 5](cheese/5.webp)
+
 ### ENDE 
 
 anyway let's back to the linear comparison. Here is the part 
