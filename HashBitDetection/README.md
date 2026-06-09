@@ -205,8 +205,44 @@ word[i] = gSSIGMA2(word[i-2]) + word[i-7] + gSSIGMA1(word[i-15]) + word[i-16];
 
 ### what's left?
 
-what's left for us now is to do the last computation, 
+what's left for us now is to do the last computation
 
+```
+      //last computation i guess?
+      u32t a,b,c,d,e,f,g,j;
+      a = H[0];
+      b = H[1];
+      c = H[2];
+      d = H[3];
+      e = H[4];
+      f = H[5];
+      g = H[6];
+      j = H[7];
+
+      for (int i = 0 ; i < 64; i++){
+            u32t T1 = j + gSIGMA2(e) + GCH(e, f, g) + H2[i] + actualwordTS[i];
+            u32t T2 = gSIGMA1(a) + MAAAYOR(a, b, c);
+            j = g;
+            g = f;
+            f = e;
+            e = d + T1;
+            d = c;
+            c = b;
+            b = a;
+            a = T1 + T2;
+      }
+
+      H[0] += a;
+      H[1] += b;
+      H[2] += c;
+      H[3] += d;
+      H[4] += e;
+      H[5] += f;
+      H[6] += g;
+      H[7] += j;
+```
+
+read it by yourself. I am done with this shit
 
 ## Linear Comparison
 It's not a must for me now to improve the speed of comparison. 
