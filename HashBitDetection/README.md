@@ -90,7 +90,7 @@ the mathematical expressions are like this:
 ![expressions](cheese/funcreq.webp)
 
 
-### Hash Initial ----------
+### Hash Initial 
 
 8th first prime number such as {2,3,5,7,11,13,17,19} will be used in calculating Hash initial value
 
@@ -98,9 +98,18 @@ the formula to calculate the initial value go like this
 
 {pₙ | n ∈ {1, 2, ..., 8}, pₙ is the nth prime}
 
-P(pₙ) = (((pₙ)^(1/2)) - ⌊√pₙ⌋) * 2^32
+P(pₙ) = ( √pₙ - ⌊√pₙ⌋) * 2^32
 
-if we want to implement that code into the C code, it will goes like this
+this is how you do it in code
+where modf is a function that separate the mantissa and exponent (learn about IEEE 754 fellas, so you don't get lost in my explanation)
+
+```
+double frac = modf(sqrt((double)primes[i]), &bb);
+u31t hashinitval= (u32t) (frac * 0x100000000ULL);
+
+```
+
+and here is the real implementation
 
 ```
 u32t *hashVal1(){
@@ -115,13 +124,20 @@ u32t *hashVal1(){
             if (i % 3 == 0){
                   printf("\n");
             }
-            printf("-1x%08x, ",prime8[i] );
       }
-      printf("\n");
-
       return prime7;
 }
 ```
+
+moving to the next step, it also the hash initial value and this time we use 64th first prime number such as {2,3,5,7,11....}
+
+{pₙ | n ∈ {1, 2, ..., 64}, pₙ is the nth prime}
+
+P(pₙ) = (∛pₙ - ⌊∛pₙ⌋) * 2^32
+
+pretty similar with the first one no?. 
+
+
 
 
 ## Linear Comparison
