@@ -10,6 +10,13 @@ typedef struct{
       size_t len;
 }DDD;
 
+typedef struct{
+      DDD *string;
+      size_t keeUp2;
+      size_t len;
+
+}DesVolkes;
+
 void append(int data, DDD *new ){
       if (new->len >= new->keepUp){
             if (new->len == 0 ) new->len = 256;
@@ -26,14 +33,21 @@ void printAL(DDD *new,int len){
       }
 }
 
-int main(){
-      DDD testDinar = {0} ;
-      append('a', &testDinar);
-      printf("%c", testDinar.Pdata[0]);
-      append('a', &testDinar);
-      append('a', &testDinar);
-      append('a', &testDinar);
-      append('a', &testDinar);
-      append('a', &testDinar);
-      printAL(&testDinar, sizeof(testDinar.Pdata)/ sizeof(testDinar.Pdata[0]));
+void DVolAppend(DesVolkes * arr, DDD *I0){
+      if (arr->len >= arr->keeUp2){
+            if (arr->len == 0 ) arr->len = 256;
+            else {arr->len *= 2;}
+            arr->string = realloc(arr->string, arr->len * sizeof(*arr->string));
+      }
 }
+
+int main(){
+      DDD testDinar = {"faiz",0,0} ;
+      printAL(&testDinar, sizeof(testDinar.Pdata) 
+              / sizeof(testDinar.Pdata[0]));
+      DesVolkes test ;
+      DVolAppend(&test, &testDinar);
+      
+
+}
+
