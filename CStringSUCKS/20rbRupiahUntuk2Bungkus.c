@@ -11,7 +11,7 @@ typedef struct{
 }DDD;
 
 typedef struct{
-      DDD *string;
+      DDD ** string;
       size_t keeUp2;
       size_t len;
 
@@ -32,6 +32,7 @@ void printAL(DDD *new,int len){
             if (new->Pdata[i] == '0') break;
             printf("%c", new->Pdata[i]);
       }
+      printf("\n");
 }
 
 void DVolAppend(DesVolkes * arr, DDD IO){
@@ -40,7 +41,7 @@ void DVolAppend(DesVolkes * arr, DDD IO){
             else {arr->len *= 2;}
             arr->string = realloc(arr->string, arr->len * sizeof(*arr->string));
       }
-      arr->string[arr->keeUp2] = IO;
+      arr->string[arr->keeUp2++] = &IO;
 }
 
 int main(){
@@ -49,11 +50,15 @@ int main(){
       append('a', &testDinar);
       append('a', &testDinar);
 
-      printAL(&testDinar, testDinar.len);
-      printf("\n");
+      DDD dinar2 = {0,0,0} ;
+      append('b', &dinar2);
+      append('b', &dinar2);
+      append('b', &dinar2);
 
       DesVolkes test ;
-      DVolAppend(&test, testDinar);
-      printAL((test.string), (test.string->len));
-}
 
+      DVolAppend(&test, testDinar);
+      DVolAppend(&test, dinar2);
+      printAL((test.string[0]), (test.string[0]->len));
+      printAL((test.string[1]), (test.string[1]->len));
+}
