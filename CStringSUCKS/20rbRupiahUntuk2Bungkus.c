@@ -17,37 +17,43 @@ typedef struct{
 
 }DesVolkes;
 
-void append(int data, DDD *new ){
-      if (new->len >= new->keepUp){
+void append(char data, DDD *new ){
+      if (new->keepUp >= new->len){
             if (new->len == 0 ) new->len = 256;
             else {new->len *= 2;}
-            new->Pdata = realloc(new->Pdata,new->len * sizeof(*new->Pdata));
+            new->Pdata = realloc(new->Pdata, new->len * sizeof(*new->Pdata)); // culprit
       }
       new->Pdata[new->keepUp++] = data;
       new->Pdata[new->keepUp++] = '\0';
 }
+
 void printAL(DDD *new,int len){
       for (int i = 0 ; i < len; i++){
-
+            if (new->Pdata[i] == '0') break;
             printf("%c", new->Pdata[i]);
       }
 }
 
-void DVolAppend(DesVolkes * arr, DDD *I0){
+void DVolAppend(DesVolkes * arr, DDD IO){
       if (arr->len >= arr->keeUp2){
             if (arr->len == 0 ) arr->len = 256;
             else {arr->len *= 2;}
             arr->string = realloc(arr->string, arr->len * sizeof(*arr->string));
       }
+      arr->string[arr->keeUp2] = IO;
 }
 
 int main(){
-      DDD testDinar = {"faiz",0,0} ;
-      printAL(&testDinar, sizeof(testDinar.Pdata) 
-              / sizeof(testDinar.Pdata[0]));
-      DesVolkes test ;
-      DVolAppend(&test, &testDinar);
-      
+      DDD testDinar = {0,0,0} ;
+      append('a', &testDinar);
+      append('a', &testDinar);
+      append('a', &testDinar);
 
+      printAL(&testDinar, testDinar.len);
+      printf("\n");
+
+      DesVolkes test ;
+      DVolAppend(&test, testDinar);
+      printAL((test.string), (test.len));
 }
 
