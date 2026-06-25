@@ -54,6 +54,6 @@ int main(){
 
       DesVolkes test ;
       DVolAppend(&test, testDinar);
-      printAL((test.string), (test.len));
+      printAL((test.string), (test.string->len));
 }
 
