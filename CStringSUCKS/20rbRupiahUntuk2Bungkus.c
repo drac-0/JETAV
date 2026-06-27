@@ -37,6 +37,7 @@ void printAL(DDD *new,int len){
 */
 
 //fits the C idiomacy
+//sc : K&R The C Programming Language
 void printAL2(DDD *new){
       int i = 0 ;
       while (new->Pdata[i]){
