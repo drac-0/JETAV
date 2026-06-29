@@ -1,5 +1,4 @@
 import os
-
 home = "/home"
 os.chdir(home)
 folpath = os.listdir();
@@ -10,6 +9,7 @@ def filecol2(folpath, filepath):
         for folder in folpath:          
             child = os.listdir(folder)
             for content in child:
+                #trash concat
                 abpath = f'{os.path.abspath(folder)}/{content}'
                 if os.path.isfile(abpath):
                     filepath.append(abpath)
