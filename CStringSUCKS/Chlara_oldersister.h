@@ -18,5 +18,6 @@ typedef struct{
 void append(char data, DDD *new);
 void printAL2(DDD *new);
 void DVolAppend(DesVolkes * arr, DDD *IO);
+DDD * Womb(DDD *I1, DDD *I2);
 
 #endif 
