@@ -31,4 +31,20 @@ void DVolAppend(DesVolkes * arr, DDD *IO){
       arr->string[arr->keeUp2++] = IO;
 }
 
+DDD * Womb(DDD *I1, DDD *I2){
+      DDD *ConI1I2 = malloc(sizeof(DDD));
+      ConI1I2->Pdata = 0 ; 
+      ConI1I2->len = ConI1I2->keepUp = 0;
+      int count = 0 ;
+      while (I1->Pdata[count]){
+            append(I1->Pdata[count++], ConI1I2);
+      }
 
+      count = 0 ;
+
+      while (I2->Pdata[count]){
+            append(I2->Pdata[count++], ConI1I2);
+      }
+
+      return ConI1I2;
+}
