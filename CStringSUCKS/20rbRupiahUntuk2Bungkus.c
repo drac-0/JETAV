@@ -46,6 +46,24 @@ void printAL2(DDD *new){
       printf("\n");
 }
 
+DDD * Womb(DDD *I1, DDD *I2){
+      DDD *ConI1I2 = malloc(sizeof(DDD));
+      ConI1I2->Pdata = 0 ; 
+      ConI1I2->len = ConI1I2->keepUp = 0;
+      int count = 0 ;
+      while (I1->Pdata[count]){
+            append(I1->Pdata[count++], ConI1I2);
+      }
+
+      count = 0 ;
+
+      while (I2->Pdata[count]){
+            append(I2->Pdata[count++], ConI1I2);
+      }
+
+      return ConI1I2;
+}
+
 void DVolAppend(DesVolkes * arr, DDD *IO){
       if (arr->len >= arr->keeUp2){
             if (arr->len == 0 ) arr->len = 256;
@@ -81,4 +99,7 @@ int main(){
       printAL2(test.string[2]);
       //printAL((test.string[0]), (test.string[0]->keepUp));
       //printAL((test.string[1]), (test.string[1]->keepUp));
+
+      DDD *dinar4 = Womb(&dinar2, &dinar3);
+      printAL2(dinar4);
 }
