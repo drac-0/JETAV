@@ -19,8 +19,8 @@ int main(){
       while (entry = readdir(dir)){
             if (entry->d_type == DT_DIR){
                   //filter
-                  if (((strcmp(entry->d_name, ".") == 0) 
-                        || (strcmp(entry->d_name, "..")) == 0)){
+                  if ((strcmp(entry->d_name, ".") == 0) 
+                        || (strcmp(entry->d_name, "..") == 0)){
                         continue;
                   }
                   printf("folder name: %s", entry->d_name);
