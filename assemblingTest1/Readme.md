@@ -6,6 +6,6 @@ TODO:
 4. survive the addiction
 5. checkpoint
 6. Hash Table. What?. Hash Table, the one you make, stat command return 
-
+7. makes greg could handle more than 512 bit block
 
 
