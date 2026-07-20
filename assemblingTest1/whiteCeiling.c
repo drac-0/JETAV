@@ -1,14 +1,37 @@
 #include <stdint.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string.h>
 #include <unistd.h>
 #include <linux/limits.h>
+#include "headerUndUtil/sha.h"
 
 
-void bjorn(char *path){
+void LinearComparison(struct stat *file, int *Fp){
+      //since when i write a function name that's self explanatory?. MEH 
+      ssize_t n ;
+      unsigned char buf[BUFSIZ];
+
+      unsigned char *new = malloc(file->st_size);
+      int i = 0 ;
+      while ((n = read(*Fp, buf, BUFSIZ)) > 0){
+            memcpy(new + i, buf, n);
+            i += n;
+      }
+
+      u32t *H = sha256(new, file->st_size);
+      for (int i = 0; i < 8; i++) {
+            printf("%08x", H[i]);
+      }
+      printf("\n");
+      free(new);
+      free(H);
+}
+
+int bjorn(char *path){
 
       DIR *dir;
       struct dirent *entry;
@@ -17,7 +40,7 @@ void bjorn(char *path){
       if (dir == NULL){
             printf("can't open");
             chdir("../");
-            return ;
+            return -1 ;
       }
 
       chdir(path);
@@ -33,14 +56,15 @@ void bjorn(char *path){
             else if(entry->d_type == DT_REG){
 
                   struct stat file; 
-                  stat(entry->d_name, &file);
+                  int Fp = open(entry->d_name, O_RDONLY);
+                  fstat(Fp, &file);
 
                   if ((file.st_mode & S_IEXEC) 
                         || (file.st_mode & S_IXGRP)
                         || ( file.st_mode & S_IXOTH)){
-
-                        printf("%s are executable\n", entry->d_name);
+                        LinearComparison(&file, &Fp);
                   }
+                  close(Fp);
             }
       }
 
@@ -48,7 +72,7 @@ void bjorn(char *path){
 
       if (closedir(dir) == -1){
             printf("Can't close");
-            return ;
+            return -1 ;
       }
 }
 
