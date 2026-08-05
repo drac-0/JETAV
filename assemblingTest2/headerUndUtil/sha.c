@@ -6,14 +6,14 @@
 
 void * Greg_bitLOC(unsigned char * Sinput, int len, u64t Tot){
       if(len == 64){
-            unsigned char * gBIT = calloc(512, 1); 
+            unsigned char * gBIT = calloc(64, 1); 
             for (int i = 0 ; i < 64; i++){
                   gBIT[i] = Sinput[i];
             }
             return gBIT;
       }
 
-      unsigned char * gBIT= calloc(512, 1); 
+      unsigned char * gBIT= calloc(64, 1); 
       gBIT[len] = 0x80 ;
 
       for (int i = 0; i < len; i++){
