@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "sha.h"
 
 const u32t H2[64] = { 
@@ -23,18 +24,35 @@ const u32t H2[64] = {
       0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2  
 };
 
+
 void * Greg_bitLOC(unsigned char * Sinput, int len, u64t Tot){
       if(len > 54){
             unsigned char * gBIT = calloc(64, 1); 
-            for (int i = 0 ; i < 64; i++){
+            for (int i = 0 ; i < len; i++){
                   gBIT[i] = Sinput[i];
             }
 
-
-
             if (len == 64) return gBIT;
+            else {
+                  int end = 64 - len;
+                  gBIT[64 - end] = 0x80;
+                  return gBIT;
+            }
+      }
 
+      else if (len == 0){
+            unsigned char * gBIT = calloc(64, 1); 
+            u64t bitLen = Tot * 8;
+            gBIT[56] = (bitLen >> 56) & 0xFF;
+            gBIT[57] = (bitLen >> 48) & 0xFF;
+            gBIT[58] = (bitLen >> 40) & 0xFF;
+            gBIT[59] = (bitLen >> 32) & 0xFF;
+            gBIT[60] = (bitLen >> 24) & 0xFF;
+            gBIT[61] = (bitLen >> 16) & 0xFF;
+            gBIT[62] = (bitLen >> 8)  & 0xFF;
+            gBIT[63] = (bitLen)       & 0xFF; 
 
+            return gBIT;
       }
 
 
@@ -57,7 +75,6 @@ void * Greg_bitLOC(unsigned char * Sinput, int len, u64t Tot){
 
       return gBIT;
 }
-
 
 u32t *wordCOME(unsigned char *gBIT){
       u32t *word = malloc(64 * sizeof(u32t));
