@@ -1,8 +1,3 @@
-#include <stddef.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include "sha.h"
 
 const u32t H2[64] = { 
@@ -184,4 +179,51 @@ u32t * MultiSha (unsigned char * hasi, u32t * H, size_t len, u64t fs){
       free(gBITmain);
       free(actualwordTS);
       return H;
+}
+
+
+u32t * HashAfile(char * path){
+      struct stat file;
+      ssize_t n ;
+      unsigned char buf[BUFSIZ];
+
+      int Pp = open(path, O_RDONLY);
+      fstat(Pp, &file);
+
+      n = read(Pp, buf,64);
+
+      if (file.st_size <= 55){
+            u32t * H = sha256(buf, n, file.st_size);
+            return H;
+      }
+
+      else if (file.st_size > 55 && file.st_size < 64){
+            u32t * H = sha256(buf, n, file.st_size);
+            n = read(Pp, buf,64);
+            H = MultiSha(buf, H, n, file.st_size);
+            return H;
+      }
+
+      else {
+            size_t Re = file.st_size % 64; 
+            u32t * H = sha256(buf, n, file.st_size);
+            n = read(Pp, buf,64);
+            int i =0; 
+
+            while (n > 0){
+                  H = MultiSha(buf, H, n, file.st_size);
+                  n = read(Pp, buf,64);
+                  if (n > 55 && n < 64){
+                        i = 1;
+
+                  }
+            }
+
+            if (i == 1){
+                  H = MultiSha(buf, H, n, file.st_size);
+            }
+
+            return H;
+      }
+
 }
